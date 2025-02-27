@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recapify - YouTube Video Summarizer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <header class="bg-gradient-to-r from-purple-600 to-indigo-700 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <i class="fas fa-video text-3xl mr-3"></i>
+                    <h1 class="text-3xl font-bold">Recapify</h1>
+                </div>
+                <p class="hidden md:block text-gray-200">Intelligent YouTube Video Summaries</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-10">
+        <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="p-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Get Instant YouTube Video Summaries</h2>
+                    <p class="text-gray-600">Paste any YouTube URL and let AI create a concise summary for you.</p>
+                </div>
+
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
+                            {% for message in messages %}
+                                <p>{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <form action="{{ url_for('summarize') }}" method="post" class="space-y-6">
+                    <div>
+                        <label for="youtube_url" class="block text-sm font-medium text-gray-700 mb-1">YouTube Video URL</label>
+                        <input type="text" name="youtube_url" id="youtube_url"
+                               placeholder="https://www.youtube.com/watch?v=..."
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                               required>
+                    </div>
+
+                    <div>
+                        <label for="prompt" class="block text-sm font-medium text-gray-700 mb-1">What would you like to know? (Optional)</label>
+                        <select name="prompt" id="prompt" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="Summarize the main points of this video">Summarize the main points</option>
+                            <option value="List the key takeaways from this video as bullet points">Key takeaways (bullet points)</option>
+                            <option value="Explain the technical details mentioned in this video">Technical details</option>
+                            <option value="Extract the step-by-step instructions from this video">Step-by-step instructions</option>
+                            <option value="Provide a comprehensive analysis of the content in this video">Comprehensive analysis</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-indigo-700 text-white py-3 px-6 rounded-lg font-medium hover:from-purple-700 hover:to-indigo-800 transition duration-300 shadow-md">
+                            <i class="fas fa-magic mr-2"></i>Summarize Video
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="bg-gray-50 py-6 px-8 border-t">
+                <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                    <div class="flex items-center text-gray-600">
+                        <i class="fas fa-bolt text-yellow-500 mr-2"></i>
+                        <span>Powered by Gemini AI</span>
+                    </div>
+                    <div class="flex space-x-6">
+                        <div class="flex items-center text-gray-600">
+                            <i class="fas fa-globe mr-2"></i>
+                            <span>Works with any YouTube video</span>
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <i class="fas fa-lock mr-2"></i>
+                            <span>Secure Processing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-12 max-w-4xl mx-auto">
+            <h3 class="text-xl font-semibold text-center text-gray-700 mb-6">How Recapify Works</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-link text-purple-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-medium text-lg text-center mb-2">Paste YouTube URL</h4>
+                    <p class="text-gray-600 text-center">Simply paste any YouTube video link you want to summarize</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-brain text-indigo-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-medium text-lg text-center mb-2">AI Processing</h4>
+                    <p class="text-gray-600 text-center">Our AI extracts and analyzes the video transcript</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-file-alt text-blue-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-medium text-lg text-center mb-2">Get Summary</h4>
+                    <p class="text-gray-600 text-center">Receive a concise, accurate summary in seconds</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <h2 class="text-2xl font-bold mb-2">Recapify</h2>
+                <p class="text-gray-400 mb-6">Save time with AI-powered video summaries</p>
+                <p class="text-sm text-gray-400">&copy; 2025 Recapify. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
