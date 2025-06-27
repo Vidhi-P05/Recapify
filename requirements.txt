@@ -1,4 +1,0 @@
-flask
-python-dotenv
-google-generativeai
-youtube-transcript-api
