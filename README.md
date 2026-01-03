@@ -29,6 +29,7 @@ Recapify is an AI-powered summarization tool that helps you quickly digest conte
 ```bash
 git clone https://github.com/Vidhi-P05/recapify.git
 cd recapify
+```
 
 ### 2. Backend Setup
 ```bash
@@ -37,12 +38,14 @@ python -m venv venv
 source venv/bin/activate   # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 flask run
+```
 
 ### 3. Frontend Setup
 ```bash
 cd ../frontend
 npm install
 npm start
+```
 
 Open your browser at http://localhost:3000 to access Recapify.
 
