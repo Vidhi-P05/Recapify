@@ -54,6 +54,7 @@ Open your browser at http://localhost:3000 to access Recapify.
 
 📸 Screenshots
 ![Text Summarization](assets/frontend.png)
+![Output](assets/frontend_with_op.png)
 
 🤝 Contributing
 We welcome contributions!
